@@ -1,0 +1,304 @@
+Microsoft Windows [Version 10.0.19042.1165]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\bairi>mongo
+MongoDB shell version v5.0.2
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("6a56f667-b30a-4ad3-aefa-a58a14b507f7") }
+MongoDB server version: 5.0.2
+================
+Warning: the "mongo" shell has been superseded by "mongosh",
+which delivers improved usability and compatibility.The "mongo" shell has been deprecated and will be removed in
+an upcoming release.
+We recommend you begin using "mongosh".
+For installation instructions, see
+https://docs.mongodb.com/mongodb-shell/install/
+================
+---
+The server generated these startup warnings when booting:
+        2021-09-08T17:22:30.494+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> use demo
+switched to db demo
+> db.users.insert({name:="dilip",section:1})
+uncaught exception: SyntaxError: expected expression, got '=' :
+@(shell):1:22
+> db.users.insert({name:="dilip"})
+uncaught exception: SyntaxError: expected expression, got '=' :
+@(shell):1:22
+> db.users.insert({name:"dilip"})
+WriteResult({ "nInserted" : 1 })
+> db.user.find()
+> db.user.find();
+> db.users.find();
+{ "_id" : ObjectId("6138be2c06124a7bc8bffc42"), "name" : "dilip" }
+> db.users.insert({name:"dheeraj",rollno:24})
+WriteResult({ "nInserted" : 1 })
+> db.users.find()
+{ "_id" : ObjectId("6138be2c06124a7bc8bffc42"), "name" : "dilip" }
+{ "_id" : ObjectId("6138c03c06124a7bc8bffc43"), "name" : "dheeraj", "rollno" : 24 }
+> db.users.find().pretty()
+{ "_id" : ObjectId("6138be2c06124a7bc8bffc42"), "name" : "dilip" }
+{
+        "_id" : ObjectId("6138c03c06124a7bc8bffc43"),
+        "name" : "dheeraj",
+        "rollno" : 24
+}
+> db.users.insert({name:"dilip",rollno:25})
+WriteResult({ "nInserted" : 1 })
+> db.users.find({$or:[{name:"dilip"},{rollno:24}]})
+{ "_id" : ObjectId("6138be2c06124a7bc8bffc42"), "name" : "dilip" }
+{ "_id" : ObjectId("6138c03c06124a7bc8bffc43"), "name" : "dheeraj", "rollno" : 24 }
+{ "_id" : ObjectId("6138c11706124a7bc8bffc44"), "name" : "dilip", "rollno" : 25 }
+> db.users.find({$or:[{name:"dilip"}]})
+{ "_id" : ObjectId("6138be2c06124a7bc8bffc42"), "name" : "dilip" }
+{ "_id" : ObjectId("6138c11706124a7bc8bffc44"), "name" : "dilip", "rollno" : 25 }
+> db.users.find().pretty()
+{ "_id" : ObjectId("6138be2c06124a7bc8bffc42"), "name" : "dilip" }
+{
+        "_id" : ObjectId("6138c03c06124a7bc8bffc43"),
+        "name" : "dheeraj",
+        "rollno" : 24
+}
+{
+        "_id" : ObjectId("6138c11706124a7bc8bffc44"),
+        "name" : "dilip",
+        "rollno" : 25
+}
+> db.users.insert([])
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 0,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+> db.users.insertmany([
+... {name:"hemanth",rollno:10},
+... {name:"rithik",rollno:5},
+... {name:"indran",rollno:21}
+... ])
+uncaught exception: TypeError: db.users.insertmany is not a function :
+@(shell):1:1
+> db.users.insertMany([ {name:"hemanth",rollno:10}, {name:"rithik",rollno:5}, {name:"indran",rollno:21} ])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("6138c4a006124a7bc8bffc45"),
+                ObjectId("6138c4a006124a7bc8bffc46"),
+                ObjectId("6138c4a006124a7bc8bffc47")
+        ]
+}
+> db.users.find().pretty()
+{ "_id" : ObjectId("6138be2c06124a7bc8bffc42"), "name" : "dilip" }
+{
+        "_id" : ObjectId("6138c03c06124a7bc8bffc43"),
+        "name" : "dheeraj",
+        "rollno" : 24
+}
+{
+        "_id" : ObjectId("6138c11706124a7bc8bffc44"),
+        "name" : "dilip",
+        "rollno" : 25
+}
+{
+        "_id" : ObjectId("6138c4a006124a7bc8bffc45"),
+        "name" : "hemanth",
+        "rollno" : 10
+}
+{
+        "_id" : ObjectId("6138c4a006124a7bc8bffc46"),
+        "name" : "rithik",
+        "rollno" : 5
+}
+{
+        "_id" : ObjectId("6138c4a006124a7bc8bffc47"),
+        "name" : "indran",
+        "rollno" : 21
+}
+> var cur =db.users.find()
+> cur.hasNext();
+true
+> cur.next()
+{ "_id" : ObjectId("6138be2c06124a7bc8bffc42"), "name" : "dilip" }
+> cur.sort({"rollno":-1})
+{ "_id" : ObjectId("6138c03c06124a7bc8bffc43"), "name" : "dheeraj", "rollno" : 24 }
+{ "_id" : ObjectId("6138c11706124a7bc8bffc44"), "name" : "dilip", "rollno" : 25 }
+{ "_id" : ObjectId("6138c4a006124a7bc8bffc45"), "name" : "hemanth", "rollno" : 10 }
+{ "_id" : ObjectId("6138c4a006124a7bc8bffc46"), "name" : "rithik", "rollno" : 5 }
+{ "_id" : ObjectId("6138c4a006124a7bc8bffc47"), "name" : "indran", "rollno" : 21 }
+> cur.limit(3);
+uncaught exception: Error: query already executed :
+DBQuery.prototype._checkModify@src/mongo/shell/query.js:91:15
+DBQuery.prototype.limit@src/mongo/shell/query.js:265:5
+@(shell):1:1
+> var cur =db.users.find();
+> cur.limit(3)
+{ "_id" : ObjectId("6138be2c06124a7bc8bffc42"), "name" : "dilip" }
+{ "_id" : ObjectId("6138c03c06124a7bc8bffc43"), "name" : "dheeraj", "rollno" : 24 }
+{ "_id" : ObjectId("6138c11706124a7bc8bffc44"), "name" : "dilip", "rollno" : 25 }
+> db.users.aggregate( [
+...    {
+...       $group: {
+...          _id: "$name",
+...          countNumberOfDocumentsForState: {
+...             $count: {}
+...          }
+...       }
+...    }
+... ] )
+{ "_id" : "hemanth", "countNumberOfDocumentsForState" : 1 }
+{ "_id" : "dilip", "countNumberOfDocumentsForState" : 2 }
+{ "_id" : "dheeraj", "countNumberOfDocumentsForState" : 1 }
+{ "_id" : "indran", "countNumberOfDocumentsForState" : 1 }
+{ "_id" : "rithik", "countNumberOfDocumentsForState" : 1 }
+> db.users.find().forEach(
+...   function(p) {
+...     print(
+...       p.users.replace("dilip","dilipkumar")
+...       );
+...   }
+... );
+uncaught exception: TypeError: p.users is undefined :
+@(shell):4:1
+DBQuery.prototype.forEach@src/mongo/shell/query.js:514:9
+@(shell):1:1
+>
+> db.users.find().forEach(   function(p) {     print(       p.name.replace("dilip","dilipkumar")       );   } );
+dilipkumar
+dheeraj
+dilipkumar
+hemanth
+rithik
+indran
+> db.users.find().forEach(   function(p) {     print(       p.name()       );   } );
+uncaught exception: TypeError: p.name is not a function :
+@(shell):1:59
+DBQuery.prototype.forEach@src/mongo/shell/query.js:514:9
+@(shell):1:1
+> db.users.find().forEach(   function(p) {     print(       p.name()       );   } );
+uncaught exception: TypeError: p.name is not a function :
+@(shell):1:59
+DBQuery.prototype.forEach@src/mongo/shell/query.js:514:9
+@(shell):1:1
+> db.users.find().map(function(i){return i.name});
+[ "dilip", "dheeraj", "dilip", "hemanth", "rithik", "indran" ]
+> db.users.find().map(function(i){return i.rollno});
+[ undefined, 24, 25, 10, 5, 21 ]
+
+imdb
+
+} db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+uncaught exception: SyntaxError: missing variable name :}{2:"action"}]),review:"good"})
+@(shell):1:46nsert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+> db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+> db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+> db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+> db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+> db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+> db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+> db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+> db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+> db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+> db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+> db.movies.insert({movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+>
+> db.movies.insert({name:"somex",movietype:"video",genre([{1:"comedy"}{2:"action"}]),review:"good"})
+uncaught exception: SyntaxError: missing variable name :
+@(shell):1:59
+> db.movies.insert({name:"somex",movietype:"video",review:"good"})
+WriteResult({ "nInserted" : 1 })
+> db.movies.insert({name:"somex",movietype:"video",review:"good",genre: [action,comedy]})
+uncaught exception: ReferenceError: action is not defined :
+@(shell):1:72
+> db.movies.insert({name:"somex",movietype:"video",review:"good",genre: ["action","comedy"]})
+WriteResult({ "nInserted" : 1 })
+> db.movies.find().pretty()
+{
+        "_id" : ObjectId("6138e6ce603daa42d5d6c6c1"),
+        "name" : "somex",
+        "movietype" : "video",
+        "review" : "good"
+}
+{
+        "_id" : ObjectId("6138e74f603daa42d5d6c6c2"),
+        "name" : "somex",
+        "movietype" : "video",
+        "review" : "good",
+        "genre" : [
+                "action",
+                "comedy"
+        ]
+}
+> db.movies.insert({name:"love",movietype:"video",review:"super",genre: ["action","comedy","romantic"]})
+WriteResult({ "nInserted" : 1 })
+> db.movies.insert({name:"drama",movietype:"image",review:"super",genre: ["drama","comedy","romantic"]})
+WriteResult({ "nInserted" : 1 })
+> db.artist.insert(roles:["hero","villan"],skills:["dancer","action stunts"])
+uncaught exception: SyntaxError: missing ) after argument list :
+@(shell):1:22
+> db.artist.insert(roles:["hero","villan"],skills:["dancer","action stunts"]);
+uncaught exception: SyntaxError: missing ) after argument list :
+@(shell):1:22
+> db.artist.insert({roles:["hero","villan"],skills:["dancer","action stunts"]});
+WriteResult({ "nInserted" : 1 })
+> db.artist.insert({roles:["hero","brother"],skills:["dancer","singer"]});
+WriteResult({ "nInserted" : 1 })
+> db.artist.insert({roles:["hero"],skills:["dancer","director"]});
+WriteResult({ "nInserted" : 1 })
+> db.artist.find().pretty();
+{
+        "_id" : ObjectId("6138e8db603daa42d5d6c6c5"),
+        "roles" : [
+                "hero",
+                "villan"
+        ],
+        "skills" : [
+                "dancer",
+                "action stunts"
+        ]
+}
+{
+        "_id" : ObjectId("6138e8f3603daa42d5d6c6c6"),
+        "roles" : [
+                "hero",
+                "brother"
+        ],
+        "skills" : [
+                "dancer",
+                "singer"
+        ]
+}
+{
+        "_id" : ObjectId("6138e91a603daa42d5d6c6c7"),
+        "roles" : [
+                "hero"
+        ],
+        "skills" : [
+                "dancer",
+                "director"
+        ]
+}
+>
+
+
+
+
