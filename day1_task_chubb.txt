@@ -1,0 +1,78 @@
+create database cd1;
+use cd1;
+create table users(user_id int,name varchar(30),email varchar(30),primary key(user_id));
+desc users;
+insert into users values(1,'dilip','dilipkumar@gmail.com');
+insert into users values(2,'dheeraj','dheeraj@gmail.com');
+insert into users values(3,'jayanth','jayanth@gmail.com');
+insert into users values(4,'hemanth','hemanth@gmail.com');
+insert into users values(5,'indran','indran@gmail.com');
+select * from users;
+
+create table codekata(user_id int,problems_solved int,foreign key(user_id) references users(user_id));
+
+
+insert into codekata values(1,25);
+select * from codekata;
+insert into codekata values(2,24);
+insert into codekata values(3,27);
+insert into codekata values(4,10);
+insert into codekata values(5,21);
+select user_id,problems_solved from users natural join codekata;
+
+
+create table company_drives(user_id int,No_of_driver_attended int,foreign key(user_id) references users(user_id));
+
+
+insert into company_drives values(1,2);
+select * from company_drives;
+insert into company_drives values(2,3);
+insert into company_drives values(3,5);
+insert into company_drives values(4,2);
+insert into company_drives values(5,3);
+select user_id,No_of_driver_attended from users natural join company_drives;
+
+create table mentors(mentor_id int,name varchar(30),No_of_students int,primary key(mentor_id));
+
+insert into mentors values(1,'x1',25);
+select * from mentors;
+insert into mentors values(2,'x2',35);
+insert into mentors values(3,'x3',19);
+insert into mentors values(4,'x4',20);
+insert into mentors values(5,'x5',29);
+
+select name from mentors;
+
+select No_of_students from mentors;
+
+create table attendance(user_id int,No_of_days_present int,foreign key(user_id) references users(user_id));
+insert into attendance values(1,100);
+insert into attendance values(2,120);
+insert into attendance values(3,110);
+insert into attendance values(4,100);
+insert into attendance values(5,100);
+
+create table courses(course_id int,coursers varchar(30),primary key(course_id));
+
+
+insert into courses values(1,'java');
+insert into courses values(2,'python');
+insert into courses values(3,'c');
+insert into courses values(4,'cpp');
+insert into courses values(5,'dart');
+select * from courses;
+
+create table students_activated_courses(user_id int,activated_course_id int,foreign key(user_id) references users(user_id));
+
+insert into students_activated_courses values(1,2);
+insert into students_activated_courses values(3,1);
+insert into students_activated_courses values(2,4);
+insert into students_activated_courses values(4,5);
+insert into students_activated_courses values(5,3);
+select * from students_activated_courses;
+show tables;
+
+
+
+
+
